@@ -163,6 +163,7 @@ body {
   box-shadow: var(--shadow-hover);
 }
 
+.product-card { transition: all 0.3s ease, opacity 0.3s ease; }
 .product-img {
   width: 100%;
   height: 240px;
@@ -321,11 +322,11 @@ body {
 
 <!-- NAV -->
 <nav class="nav">
-  <a href="#" class="active">All Products</a>
-  <a href="#">Squishies</a>
-  <a href="#">NeeDoh</a>
-  <a href="#">Mystery Boxes</a>
-  <a href="#">New Arrivals</a>
+  <a href="#" class="active" data-filter="all">All Products</a>
+  <a href="#" data-filter="squishies">Squishies</a>
+  <a href="#" data-filter="needoh">NeeDoh</a>
+  <a href="#" data-filter="mystery">Mystery Boxes</a>
+  <a href="#" data-filter="new">New Arrivals</a>
 </nav>
 
 <!-- PRODUCTS -->
@@ -335,7 +336,7 @@ body {
 <div class="products">
 
   <!-- Product 1: NeeDoh Nice Cube -->
-  <div class="product-card">
+  <div class="product-card" data-category="needoh">
     <img class="product-img" src="images/needoh-nice-cube.jpg" alt="NeeDoh Nice Cube — Soda Series">
     <div class="product-info">
       <span class="badge badge-hot">🔥 HOT</span>
@@ -349,7 +350,7 @@ body {
   </div>
 
   <!-- Product 2: Starbucks Squishy -->
-  <div class="product-card">
+  <div class="product-card" data-category="needoh">
     <img class="product-img" src="images/starbucks-squishy.jpg" alt="Starbucks Strawberry Açaí Lemonade Squishy">
     <div class="product-info">
       <span class="badge badge-limited">⭐ LIMITED</span>
@@ -363,7 +364,7 @@ body {
   </div>
 
   <!-- Product 3: Rainbow Mystery Bun -->
-  <div class="product-card">
+  <div class="product-card" data-category="mystery squishies">
     <img class="product-img" src="images/mystery-bun.jpg" alt="Rainbow Mystery Dumpling Bun">
     <div class="product-info">
       <span class="badge badge-mystery">🎲 MYSTERY</span>
@@ -377,7 +378,7 @@ body {
   </div>
 
   <!-- Product 4: Squeezy Dumplings -->
-  <div class="product-card">
+  <div class="product-card" data-category="squishies new">
     <img class="product-img" src="images/squeezy-dumplings.jpg" alt="Squeezy Dumplings Kawaii Set">
     <div class="product-info">
       <span class="badge badge-new">✨ NEW</span>
@@ -391,7 +392,7 @@ body {
   </div>
 
   <!-- Product 5: Butter Squishy -->
-  <div class="product-card">
+  <div class="product-card" data-category="squishies">
     <img class="product-img" src="images/butter-squishy.jpg" alt="Butter Squishy Slow Rise">
     <div class="product-info">
       <span class="badge badge-hot">🔥 VIRAL</span>
@@ -405,7 +406,7 @@ body {
   </div>
 
   <!-- Product 6: Jelly Squish Jellyfish -->
-  <div class="product-card">
+  <div class="product-card" data-category="squishies new">
     <img class="product-img" src="images/jelly-jellyfish.jpg" alt="Jelly Squish Jellyfish">
     <div class="product-info">
       <span class="badge badge-new">✨ NEW</span>
@@ -419,7 +420,7 @@ body {
   </div>
 
   <!-- Product 7: Spiky Puffer Ball -->
-  <div class="product-card">
+  <div class="product-card" data-category="squishies">
     <img class="product-img" src="images/puffer-ball.jpg" alt="Spiky Sensory Puffer Ball">
     <div class="product-info">
       <span class="badge badge-hot">🔥 POPULAR</span>
@@ -433,7 +434,7 @@ body {
   </div>
 
   <!-- Product 8: Mystery Dim Sum Surprise -->
-  <div class="product-card">
+  <div class="product-card" data-category="mystery squishies">
     <img class="product-img" src="images/dim-sum-mystery.jpg" alt="Mystery Dim Sum Surprise">
     <div class="product-info">
       <span class="badge badge-mystery">🎲 MYSTERY</span>
@@ -479,6 +480,41 @@ body {
   <a href="#"><i class="fa-brands fa-twitter"></i></a>
   <p>&copy; 2026 Squish &amp; Co. — All rights reserved 💕</p>
 </div>
+
+<!-- FILTER SCRIPT -->
+<script>
+  const navLinks = document.querySelectorAll('.nav a[data-filter]');
+  const productCards = document.querySelectorAll('.product-card');
+
+  navLinks.forEach(link => {
+    link.addEventListener('click', function(e) {
+      e.preventDefault();
+
+      // Update active state
+      navLinks.forEach(l => l.classList.remove('active'));
+      this.classList.add('active');
+
+      const filter = this.getAttribute('data-filter');
+
+      productCards.forEach(card => {
+        if (filter === 'all') {
+          card.style.display = '';
+          card.style.opacity = '1';
+          card.style.transform = '';
+        } else {
+          const categories = card.getAttribute('data-category') || '';
+          if (categories.includes(filter)) {
+            card.style.display = '';
+            card.style.opacity = '1';
+            card.style.transform = '';
+          } else {
+            card.style.display = 'none';
+          }
+        }
+      });
+    });
+  });
+</script>
 
 </body>
 </html>
